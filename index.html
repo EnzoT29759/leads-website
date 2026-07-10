@@ -1,0 +1,12 @@
+Here's your complete `index.html` — one file, copy-paste ready.
+
+**What's in it:**
+- Modern, mobile-responsive design themed around Nyahururu's waterfall (a cascading "flow" motif runs through the hero and the "how it works" steps)
+- Service picker (food, shopping, groceries, liquor, medicine, laundry) that builds into your order
+- Order form → generates an order code and opens WhatsApp with a pre-filled message
+- Order tracking with a live-feeling status timeline (try the demo code **LD-48213**), plus a "Rider Portal" where you or a rider can update status and it generates a **delivery confirmation code** once marked "Delivered"
+- M-Pesa payment section
+
+**Before you use it, edit one line:** search for `whatsappNumber: "254700000000"` near the top of the `<script>` and replace it with your real WhatsApp number (format `254XXXXXXXXX`, no `+` or spaces).
+
+**One honest limitation:** the tracking and payment are simulated in the browser — there's no real backend. A single HTML file can't safely hold M-Pesa API credentials (they'd be visible to anyone who views the page source), and tracking only works on the same phone/browser that created the order, not shared live across customer and rider devices. To make both fully real and synced across devices, you'd eventually need a small backend (e.g., a free service like Supabase/Firebase for shared order status, plus Safaricom's Daraja API for real STK push payments) — happy to help you set that up when you're ready.
