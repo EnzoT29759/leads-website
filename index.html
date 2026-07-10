@@ -1,12 +1,247 @@
-Here's your complete `index.html` — one file, copy-paste ready.
-
-**What's in it:**
-- Modern, mobile-responsive design themed around Nyahururu's waterfall (a cascading "flow" motif runs through the hero and the "how it works" steps)
-- Service picker (food, shopping, groceries, liquor, medicine, laundry) that builds into your order
-- Order form → generates an order code and opens WhatsApp with a pre-filled message
-- Order tracking with a live-feeling status timeline (try the demo code **LD-48213**), plus a "Rider Portal" where you or a rider can update status and it generates a **delivery confirmation code** once marked "Delivered"
-- M-Pesa payment section
-
-**Before you use it, edit one line:** search for `whatsappNumber: "254700000000"` near the top of the `<script>` and replace it with your real WhatsApp number (format `254XXXXXXXXX`, no `+` or spaces).
-
-**One honest limitation:** the tracking and payment are simulated in the browser — there's no real backend. A single HTML file can't safely hold M-Pesa API credentials (they'd be visible to anyone who views the page source), and tracking only works on the same phone/browser that created the order, not shared live across customer and rider devices. To make both fully real and synced across devices, you'd eventually need a small backend (e.g., a free service like Supabase/Firebase for shared order status, plus Safaricom's Daraja API for real STK push payments) — happy to help you set that up when you're ready.
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Leads - Fast delivery service in Nyahururu. Order food, shopping, groceries, liquor, medicine, and laundry services.">
+    <title>Leads - Delivery Service Nyahururu</title>
+    
+    <!-- Vercel Web Analytics -->
+    <script defer src="https://cdn.vercel-insights.com/v1/script.js"></script>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #667eea;
+        }
+        
+        h1 {
+            color: #667eea;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .tagline {
+            color: #666;
+            font-size: 1.1rem;
+        }
+        
+        .info-section {
+            background: #f8f9fa;
+            padding: 30px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+        }
+        
+        .info-section h2 {
+            color: #667eea;
+            margin-bottom: 15px;
+        }
+        
+        .info-section ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        
+        .info-section li {
+            padding: 10px 0;
+            padding-left: 25px;
+            position: relative;
+        }
+        
+        .info-section li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #667eea;
+            font-weight: bold;
+        }
+        
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .service-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 10px;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+        
+        .service-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .service-card h3 {
+            margin-bottom: 10px;
+            font-size: 1.3rem;
+        }
+        
+        .cta-section {
+            text-align: center;
+            padding: 40px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 10px;
+            color: white;
+            margin-top: 30px;
+        }
+        
+        .cta-section h2 {
+            margin-bottom: 15px;
+        }
+        
+        .cta-button {
+            display: inline-block;
+            background: white;
+            color: #667eea;
+            padding: 15px 40px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: bold;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+        }
+        
+        .cta-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 2px solid #e0e0e0;
+            color: #666;
+        }
+        
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .container {
+                padding: 20px;
+            }
+            
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🌊 Leads Delivery</h1>
+            <p class="tagline">Fast, Reliable Delivery Service in Nyahururu</p>
+        </header>
+        
+        <div class="info-section">
+            <h2>Welcome to Leads</h2>
+            <p>Your complete delivery solution in Nyahururu, themed around the beauty of our famous waterfall. We bring everything you need right to your doorstep.</p>
+        </div>
+        
+        <h2 style="text-align: center; color: #667eea; margin-bottom: 20px;">Our Services</h2>
+        <div class="services-grid">
+            <div class="service-card">
+                <h3>🍔 Food Delivery</h3>
+                <p>Fresh meals from your favorite restaurants</p>
+            </div>
+            <div class="service-card">
+                <h3>🛍️ Shopping</h3>
+                <p>Personal shopping and delivery</p>
+            </div>
+            <div class="service-card">
+                <h3>🥬 Groceries</h3>
+                <p>Fresh produce and essentials</p>
+            </div>
+            <div class="service-card">
+                <h3>🍷 Liquor</h3>
+                <p>Wine, beer, and spirits delivery</p>
+            </div>
+            <div class="service-card">
+                <h3>💊 Medicine</h3>
+                <p>Pharmacy deliveries when you need them</p>
+            </div>
+            <div class="service-card">
+                <h3>👔 Laundry</h3>
+                <p>Pickup and delivery service</p>
+            </div>
+        </div>
+        
+        <div class="info-section">
+            <h2>How It Works</h2>
+            <ul>
+                <li>Choose your service from our wide range of options</li>
+                <li>Place your order via WhatsApp or our order form</li>
+                <li>Get a unique order code for tracking</li>
+                <li>Track your order in real-time</li>
+                <li>Receive your delivery with a confirmation code</li>
+                <li>Pay conveniently via M-Pesa</li>
+            </ul>
+        </div>
+        
+        <div class="cta-section">
+            <h2>Ready to Order?</h2>
+            <p>Contact us on WhatsApp to get started</p>
+            <a href="https://wa.me/254700000000" class="cta-button" target="_blank">Order on WhatsApp</a>
+            <p style="margin-top: 15px; font-size: 0.9rem; opacity: 0.9;">
+                Replace the WhatsApp number with your actual business number
+            </p>
+        </div>
+        
+        <footer>
+            <p>&copy; 2026 Leads Delivery - Nyahururu. All rights reserved.</p>
+            <p style="margin-top: 10px; font-size: 0.9rem;">
+                Note: Order tracking and M-Pesa payments require backend integration for full functionality across devices.
+            </p>
+        </footer>
+    </div>
+    
+    <script>
+        // Configuration
+        const config = {
+            whatsappNumber: "254700000000" // Replace with your actual WhatsApp number
+        };
+        
+        // Basic order tracking functionality can be added here
+        console.log("Leads Delivery Website Loaded");
+        console.log("Vercel Analytics is active");
+        
+        // You can add more functionality here as needed
+        // For example: order form handling, tracking, etc.
+    </script>
+</body>
+</html>
